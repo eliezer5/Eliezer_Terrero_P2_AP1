@@ -1,5 +1,71 @@
-﻿<h3>Create</h3>
+﻿@page "/Create"
+@inject HttpClient httpClient
+<EditForm Model="vehiculos" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator/>
+	<div class="card">
+		<div class="card-header">
+			<h2>Registro Vehiculo</h2>
+		</div>
 
+		<div class="card-body">
+			<div class="mb-3">
+				<label>VehiculoId</label>
+				<InputNumber @bind-Value="vehiculos.VehiculoId"></InputNumber>
+			</div>
+
+			<div class="mb-3">
+				<label>Descripci&oacute;n</label>
+				<InputText @bind-Value="vehiculos.Descripcion"></InputText>
+			</div>
+
+			<div class="mb-3">
+				<label>Fecha</label>
+				<InputDate @bind-Value="vehiculos.Fecha"></InputDate>
+			</div>
+
+
+			<div class="mb-3">
+				<label>Costo</label>
+				<InputNumber @bind-Value="vehiculos.Costo"></InputNumber>
+			</div>
+
+			<div class="card-footer">
+				<button><a href="/" class="btn btn-group">Atras</a></button>
+				<button type="submit" class="btn btn-success">Guardar</button>
+			</div>
+
+		</div>
+	</div>
+</EditForm>
 @code {
+	public Vehiculos vehiculos { get; set; } = new Vehiculos();
+	public Accesorios accesorios { get; set; } = new Accesorios();
+	public List<VehiculosDetalle> listaDetalles = new List<VehiculosDetalle>();
+	public VehiculosDetalle vehiculosDetalle = new VehiculosDetalle();
 
+	protected override async Task OnInitializedAsync()
+	{
+		vehiculos.Fecha = DateTime.Now;
+	}
+
+
+	public async Task Guardar()
+	{
+
+		var response = await httpClient.PostAsJsonAsync("api/vehiculos", vehiculos);
+
+		if (!response.IsSuccessStatusCode)
+		{
+			return;
+		}
+		var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos>();
+		if (vehiculoDevuelto is not null)
+		{
+
+			vehiculos = vehiculoDevuelto;
+			vehiculosDetalle.VehiculoId = vehiculos.VehiculoId;
+			vehiculosDetalle.AccesorioId = accesorios.AccesoriosId;
+			StateHasChanged();
+		}
+	}
 }
