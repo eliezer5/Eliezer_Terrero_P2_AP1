@@ -1,5 +1,44 @@
-﻿<h3>Index</h3>
+﻿@page "/Index"
+@inject HttpClient httpClient
+
+<div class="card"> 
+    <div class="card-header">
+        <h1>Consulta vehiculos</h1>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>VehiculoId</th>
+                    <th>Fecha</th>
+                    <th>Descripci&oacute;n</th>
+                    <th>Costo</th>
+                    <th>Gasto</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var vehiculo in listaVehiculos)
+                {
+                    <tr>
+                        <td>@vehiculo.VehiculoId</td>
+                        <td>@vehiculo.Fecha</td>
+                        <td>@vehiculo.Descripcion</td>
+                        <td>@vehiculo.Costo</td>
+                        <td>@vehiculo.Gasto</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 @code {
-
+    public Vehiculos vehiculos = new Vehiculos();
+    public List<Vehiculos> listaVehiculos = new List<Vehiculos>();
+    protected override async Task OnInitializedAsync()
+    {
+        listaVehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
+    }
 }
