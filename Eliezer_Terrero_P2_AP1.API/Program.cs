@@ -22,7 +22,12 @@ namespace Eliezer_Terrero_P2_AP1.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors(op =>
+            {
+                op.AllowAnyMethod();
+                op.AllowAnyHeader();
+                op.AllowAnyOrigin();
+            });
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
