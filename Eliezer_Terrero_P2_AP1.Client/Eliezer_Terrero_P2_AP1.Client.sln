@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eliezer_Terrero_P2_AP1.Client", "Eliezer_Terrero_P2_AP1.Client.csproj", "{1872F617-CFF4-4C42-83C1-1DE6C8F289A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eliezer_Terrero_P2_AP1.API", "..\Eliezer_Terrero_P2_AP1.API\Eliezer_Terrero_P2_AP1.API.csproj", "{75626C5A-F6A2-4A26-A22A-1E302D811752}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1872F617-CFF4-4C42-83C1-1DE6C8F289A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1872F617-CFF4-4C42-83C1-1DE6C8F289A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1872F617-CFF4-4C42-83C1-1DE6C8F289A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75626C5A-F6A2-4A26-A22A-1E302D811752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75626C5A-F6A2-4A26-A22A-1E302D811752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75626C5A-F6A2-4A26-A22A-1E302D811752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75626C5A-F6A2-4A26-A22A-1E302D811752}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
