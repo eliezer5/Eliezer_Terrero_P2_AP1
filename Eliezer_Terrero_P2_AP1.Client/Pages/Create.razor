@@ -76,26 +76,13 @@
 			</div>
 
 			<div class="row">
-				<label>VehiculoId</label>
-				@* <div class="col-auto">
-
-					<InputSelect @bind-Value=@vehiculosDetalle.VehiculoId class="form-control">
-						<option value="">Seleccione el VehiculoId</option>
-						@foreach (var vehiculo in listaVehiculo)
-						{
-							<option value="@vehiculo.VehiculoId">@vehiculo.Descripcion</option>
-						}
-					</InputSelect>
-				</div> *@
-				
-			</div>
-
-			<div class="row">
 				<label>AccesorioId</label>
 				<div class="col-auto">
+					
 					<InputSelect @bind-Value=@vehiculosDetalle.AccesorioId class="form-control" >
 
 						<option value="">Seleccione el AccesorioId</option>
+						
 						@foreach (var accesorio in listaAcessorio)
 						{
 							<option value="@accesorio.AccesoriosId">@accesorio.Descripcion</option>
@@ -113,6 +100,7 @@
 					<InputNumber @bind-Value="vehiculosDetalle.Valor"></InputNumber>
 				</div>
 				
+				<p class="text-danger">@mensaje</p>
 			</div>
 		</div>
 		<div class="card-footer">
@@ -131,7 +119,7 @@
 	public List<Vehiculos> listaVehiculo = new List<Vehiculos>();
 	public List<Accesorios> listaAcessorio = new List<Accesorios>();
 
-
+	public string mensaje = string.Empty;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -173,8 +161,24 @@
 	public async Task AddDetalle()
 	{
 		vehiculosDetalle.VehiculoId = vehiculos.VehiculoId;
+		validar();
 		vehiculos.VehiculosDetalles.Add(vehiculosDetalle);
 		vehiculos.Gasto += vehiculosDetalle.Valor;
 		StateHasChanged(); 
+	}
+	public bool validar()
+	{
+		if (vehiculosDetalle.AccesorioId == 0)
+		{
+			mensaje = "debes seleccionar un accesorio id valido";
+			return false;
+		}
+		else if (vehiculosDetalle.Valor == 0)
+		{
+			mensaje = "El valor debe ser mayor a 0";
+			return false;
+		}
+		mensaje = string.Empty;
+		return true;
 	}
 }
