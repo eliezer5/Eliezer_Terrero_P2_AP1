@@ -1,5 +1,6 @@
 ﻿@page "/Create"
 @inject HttpClient httpClient
+
 <EditForm Model="vehiculos" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator/>
 	<div class="card">
@@ -33,10 +34,7 @@
 				<ValidationMessage For="(() => vehiculos.Costo)"></ValidationMessage>
 			</div>
 
-			<div class="card-footer">
-				<button><a href="/" class="btn btn-group">Atras</a></button>
-				<button type="submit" class="btn btn-success">Guardar</button>
-			</div>
+			
 
 		</div>
 	</div>
@@ -78,7 +76,11 @@
 				<ValidationMessage For="(() => vehiculosDetalle.Valor)"></ValidationMessage>
 			</div>
 		</div>
-
+		<div class="card-footer">
+			<button><a href="/" class="btn btn-group">Atras</a></button>
+			<button type="button" class="btn btn-success" @onclick="Guardar">Guardar</button>
+			<button type="button" class="btn btn-success" @onclick="AddDetalle">AgregarDetalle</button>
+		</div>
 	</div>
 </EditForm>
 @code {
@@ -105,20 +107,21 @@
 
 	public async Task Guardar()
 	{
-
-		var response = await httpClient.PostAsJsonAsync("api/vehiculos", vehiculos);
+		var response = await httpClient.PostAsJsonAsync("api/Vehiculos", vehiculos);
 
 		if (!response.IsSuccessStatusCode)
 		{
+			
 			return;
+		
 		}
+
 		var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos>();
+
 		if (vehiculoDevuelto is not null)
 		{
-
 			vehiculos = vehiculoDevuelto;
-			vehiculosDetalle.VehiculoId = vehiculos.VehiculoId;
-			vehiculosDetalle.AccesorioId = accesorios.AccesoriosId;
+			nuevo(); 
 			StateHasChanged();
 		}
 	}

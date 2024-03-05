@@ -25,7 +25,7 @@ namespace Eliezer_Terrero_P2_AP1.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehiculos>>> GetVehiculos()
         {
-            return await _context.Vehiculos.ToListAsync();
+            return await _context.Vehiculos.Include(op => op.VehiculosDetalles).ToListAsync();
         }
 
         // GET: api/Vehiculos/5
