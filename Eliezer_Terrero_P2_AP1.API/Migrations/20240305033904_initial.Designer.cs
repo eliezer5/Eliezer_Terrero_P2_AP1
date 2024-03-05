@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eliezer_Terrero_P2_AP1.API.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20240305032201_initial")]
+    [Migration("20240305033904_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -76,9 +76,6 @@ namespace Eliezer_Terrero_P2_AP1.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Gasto")
                         .HasColumnType("TEXT");
 
                     b.HasKey("VehiculoId");
