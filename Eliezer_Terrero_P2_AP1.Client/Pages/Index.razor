@@ -7,6 +7,51 @@
     </div>
 
     <div class="card-body">
+        <div class="row">
+            <div class="col-4">
+                <label>Filtrar Por</label>
+                <InputSelect @bind-Value="Opcion" class="form-select">
+                    <option value="1">vehiculoId</option>
+                    <option value="2">Descripci&oacute;n</option>
+                    <option value="3">Todo</option>
+                </InputSelect>
+            </div>
+
+            @if (Opcion == 1)
+            {
+                <div class="col-5">
+                    <label>VehiculoId</label>
+                    <div class="input-group">
+                        <InputNumber @bind-Value="vehiculos.VehiculoId" class="form-control" />
+                        <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                    </div>
+                </div>
+            }
+            else if (Opcion == 2)
+            {
+                <div class="col-5">
+                    <label>Descripci&oacute;n</label>
+                    <div class="input-group">
+                        <InputText @bind-Value="vehiculos.Descripcion" class="form-control" />
+                        <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                    </div>
+                </div>
+            }
+
+            else if (Opcion == 3)
+            {
+                <div class="col-4">
+                    <label></label>
+                    <div class="input-group">
+                        
+                        <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="justify-content-end d-flex mb-4">
+            <a href="Create" class="btn btn-success">Create</a>
+        </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -42,8 +87,32 @@
 @code {
     public Vehiculos vehiculos = new Vehiculos();
     public List<Vehiculos> listaVehiculos = new List<Vehiculos>();
+    public int Opcion;
+
     protected override async Task OnInitializedAsync()
     {
         listaVehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
+    }
+    public async Task Buscar()
+    {
+        if (Opcion == 1)
+        {
+            listaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos"))!
+            .Where(v => v.VehiculoId == vehiculos.VehiculoId)
+            .ToList();
+        }
+        if (Opcion == 2)
+        {
+            listaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos"))!
+            .Where(v => v.Descripcion!.ToLower() == vehiculos.Descripcion!.ToLower())
+            .ToList();
+        }
+        
+
+        if (Opcion == 3)
+        {
+            listaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos"))!
+            .ToList();
+        }
     }
 }
