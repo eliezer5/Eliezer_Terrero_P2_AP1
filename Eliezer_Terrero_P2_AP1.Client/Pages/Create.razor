@@ -103,9 +103,40 @@
 				<p class="text-danger">@mensaje</p>
 			</div>
 		</div>
+		
+		<hr clas="border-bottom" />
+
+		<div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>AccesorioId</th>
+						<th>Valor</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					@foreach (var detalle in vehiculos.VehiculosDetalles)
+					{
+						
+						<tr>
+							<td>@detalle.AccesorioId</td>
+							<td>@detalle.Valor</td>
+							<td>
+								<button type="button" class="btn btn-danger bi bi-trash" @onclick=@(() => Eliminar(detalle))></button>
+							</td>
+						</tr>
+							
+						
+					}
+				</tbody>
+			</table>
+
+		</div>
 		<div class="card-footer">
 			<button><a href="/" class="btn btn-group">Atras</a></button>
-			<button type="submit" class="btn btn-success">Guardar</button>
+			<button type="submit" class="btn btn-success ">Guardar</button>
 			<button type="button" class="btn btn-success" @onclick="AddDetalle">AgregarDetalle</button>
 		</div>
 	</div>
@@ -113,7 +144,7 @@
 @code {
 	public Vehiculos vehiculos { get; set; } = new Vehiculos();
 	public Accesorios accesorios { get; set; } = new Accesorios();
-	public List<VehiculosDetalle> listaDetalles = new List<VehiculosDetalle>();
+
 	public VehiculosDetalle vehiculosDetalle = new VehiculosDetalle();
 
 	public List<Vehiculos> listaVehiculo = new List<Vehiculos>();
@@ -164,6 +195,7 @@
 		validar();
 		vehiculos.VehiculosDetalles.Add(vehiculosDetalle);
 		vehiculos.Gasto += vehiculosDetalle.Valor;
+		vehiculosDetalle = new VehiculosDetalle();
 		StateHasChanged(); 
 	}
 	public bool validar()
@@ -180,5 +212,13 @@
 		}
 		mensaje = string.Empty;
 		return true;
+	}
+
+	public async Task Eliminar(VehiculosDetalle vehiculosDetalles)
+	{
+		vehiculosDetalle = vehiculosDetalles;
+		vehiculos.Gasto -= vehiculosDetalle.Valor;
+		vehiculos.VehiculosDetalles.Remove(vehiculosDetalles);
+		StateHasChanged();
 	}
 }
