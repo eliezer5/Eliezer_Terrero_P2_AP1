@@ -49,7 +49,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		vehiculos = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{VehiculoId}");
-		
+
 	}
 
 
@@ -62,14 +62,6 @@
 		{
 			return;
 		}
-		var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos>();
-		if (vehiculoDevuelto is not null)
-		{
-
-			vehiculos = vehiculoDevuelto;
-			vehiculosDetalle.VehiculoId = vehiculos.VehiculoId;
-			vehiculosDetalle.AccesorioId = accesorios.AccesoriosId;
-			StateHasChanged();
-		}
+		StateHasChanged();
 	}
 }
