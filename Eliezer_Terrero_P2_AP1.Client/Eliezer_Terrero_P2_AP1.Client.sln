@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eliezer_Terrero_P2_AP1.Client", "Eliezer_Terrero_P2_AP1.Client.csproj", "{1872F617-CFF4-4C42-83C1-1DE6C8F289A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eliezer_Terrero_P2_AP1.Client", "Eliezer_Terrero_P2_AP1.Client.csproj", "{1872F617-CFF4-4C42-83C1-1DE6C8F289A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eliezer_Terrero_P2_AP1.API", "..\Eliezer_Terrero_P2_AP1.API\Eliezer_Terrero_P2_AP1.API.csproj", "{75626C5A-F6A2-4A26-A22A-1E302D811752}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eliezer_Terrero_P2_AP1.API", "..\Eliezer_Terrero_P2_AP1.API\Eliezer_Terrero_P2_AP1.API.csproj", "{75626C5A-F6A2-4A26-A22A-1E302D811752}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\Shared\Shared.csproj", "{5DB52F87-FB57-42A4-A813-C714F9EB1EC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\Shared\Shared.csproj", "{5DB52F87-FB57-42A4-A813-C714F9EB1EC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
