@@ -28,10 +28,10 @@
 				<label>Costo</label>
 				<InputNumber @bind-Value="vehiculos.Costo" readonly></InputNumber>
 			</div>
-
+			<p class="text-danger">@mensaje</p>
 			<div class="card-footer">
-				<button><a href="/" class="btn btn-group">Atras</a></button>
-				<button type="submit" class="btn btn-warning">Eliminar</button>
+				<button><a href="/Index" class="btn btn-group">Atras</a></button>
+				<button type="button" class="btn btn-danger" @onclick="Eliminar" >Eliminar</button>
 			</div>
 
 		</div>
@@ -40,11 +40,8 @@
 @code {
 	[Parameter]
 	public int VehiculoId { get; set; }
-
 	public Vehiculos vehiculos { get; set; } = new Vehiculos();
-	public Accesorios accesorios { get; set; } = new Accesorios();
-	public List<VehiculosDetalle> listaDetalles = new List<VehiculosDetalle>();
-	public VehiculosDetalle vehiculosDetalle = new VehiculosDetalle();
+	public string mensaje = string.Empty;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -55,7 +52,8 @@
 	public async Task Eliminar()
 	{
 		var response = await httpClient.DeleteAsync($"api/Vehiculos/{VehiculoId}");
-		
+		mensaje = "Vehiculo eliminado Correctamente";
+		StateHasChanged();
 
 	}
 }
