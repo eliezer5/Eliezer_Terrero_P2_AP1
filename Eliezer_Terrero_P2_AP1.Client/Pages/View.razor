@@ -1,5 +1,28 @@
-﻿<h3>View</h3>
+﻿@page "/View/{VehiculoId:int}"
+@inject HttpClient httpClient
+<div class="card">
+    <div class="card-header">
+        <h2>View Vehiculo</h2>
+    </div>
+    
+    <p>VehiculoId: @vehiculo.VehiculoId </p>
+    <p>Descripci&oacute;n: @vehiculo.Descripcion </p>
+    <p>Fecha: @vehiculo.Fecha </p>
+    <p>Costo: @vehiculo.Costo </p>
+   
+
+       
+    
+</div>
+
 
 @code {
+    [Parameter]
+    public int VehiculoId { get; set; }
+    public Vehiculos vehiculo { get; set; } = new Vehiculos();
 
+    protected override async Task OnInitializedAsync()
+    {
+        vehiculo = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{VehiculoId}");
+    }
 }
