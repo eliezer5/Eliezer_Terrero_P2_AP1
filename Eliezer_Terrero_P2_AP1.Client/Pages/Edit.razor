@@ -48,7 +48,8 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		vehiculos.Fecha = DateTime.Now;
+		vehiculos = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{VehiculoId}");
+		
 	}
 
 
