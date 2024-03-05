@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +19,12 @@ namespace Shared.Models
         public string Descripcion { get; set; }
 
 
-		[Required(ErrorMessage = "El Campo es requerido")]
+		[Range(0.1, double.MaxValue, ErrorMessage = "El rango debe ser mayor a 0")]
 		public decimal Costo { get; set; }
 
-		[Required(ErrorMessage = "El Campo es requerido")]
+        [Range(0.1, double.MaxValue,ErrorMessage ="El rango debe ser mayor a 0")]
         public decimal Gasto { get; set; }
-
+        [ForeignKey("VehiculoId")]
         public ICollection<VehiculosDetalle?> VehiculosDetalles { get; set; } = new List<VehiculosDetalle?>();
     }
 }
