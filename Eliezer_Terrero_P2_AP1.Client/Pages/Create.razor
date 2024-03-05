@@ -11,22 +11,26 @@
 			<div class="mb-3">
 				<label>VehiculoId</label>
 				<InputNumber @bind-Value="vehiculos.VehiculoId"></InputNumber>
+				<ValidationMessage For="(() => vehiculos.VehiculoId)"></ValidationMessage>
 			</div>
 
 			<div class="mb-3">
 				<label>Descripci&oacute;n</label>
 				<InputText @bind-Value="vehiculos.Descripcion"></InputText>
+				<ValidationMessage For="(() => vehiculos.Descripcion)"></ValidationMessage>
 			</div>
 
 			<div class="mb-3">
 				<label>Fecha</label>
 				<InputDate @bind-Value="vehiculos.Fecha"></InputDate>
+				<ValidationMessage For="(() => vehiculos.Fecha)"></ValidationMessage>
 			</div>
 
 
 			<div class="mb-3">
 				<label>Costo</label>
 				<InputNumber @bind-Value="vehiculos.Costo"></InputNumber>
+				<ValidationMessage For="(() => vehiculos.Costo)"></ValidationMessage>
 			</div>
 
 			<div class="card-footer">
@@ -36,6 +40,46 @@
 
 		</div>
 	</div>
+
+	<div class="card">
+		<div class="card-header">
+			<h2>Vehiculo Detalle</h2>
+		</div>
+
+		<div class="card-body">
+			<div class="mb-3">
+				<label>Id</label>
+				<InputNumber @bind-Value="vehiculosDetalle.Id"></InputNumber>
+				<ValidationMessage For="(() => vehiculosDetalle.Id)"></ValidationMessage>
+			</div>
+
+			<div class="mb-3">
+				<label>VehiculoId</label>
+				<InputSelect @bind-Value=@vehiculosDetalle.VehiculoId class="form-control">
+					@foreach (var vehiculo in listaVehiculo)
+					{
+						<option value="@vehiculo.Descripcion">@vehiculo.VehiculoId</option>
+					}
+				</InputSelect>
+			</div>
+
+			<div class="mb-3">
+				<label>AccesorioId</label>
+				<InputSelect @bind-Value=@accesorios.AccesoriosId class="form-control">
+					@foreach (var accesorio in listaAcessorio)
+					{
+						<option value="@accesorio.Descripcion">@accesorio.AccesoriosId</option>
+					}
+				</InputSelect>
+			</div>
+			<div class="mb-3">
+				<label>Costo</label>
+				<InputNumber @bind-Value="vehiculosDetalle.Valor"></InputNumber>
+				<ValidationMessage For="(() => vehiculosDetalle.Valor)"></ValidationMessage>
+			</div>
+		</div>
+
+	</div>
 </EditForm>
 @code {
 	public Vehiculos vehiculos { get; set; } = new Vehiculos();
@@ -43,9 +87,19 @@
 	public List<VehiculosDetalle> listaDetalles = new List<VehiculosDetalle>();
 	public VehiculosDetalle vehiculosDetalle = new VehiculosDetalle();
 
+	public List<Vehiculos> listaVehiculo = new List<Vehiculos>();
+	public List<Accesorios> listaAcessorio = new List<Accesorios>();
+
+
+
 	protected override async Task OnInitializedAsync()
 	{
 		vehiculos.Fecha = DateTime.Now;
+
+		listaAcessorio = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");
+		listaVehiculo = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
+
+
 	}
 
 
@@ -67,5 +121,29 @@
 			vehiculosDetalle.AccesorioId = accesorios.AccesoriosId;
 			StateHasChanged();
 		}
+	}
+
+	public void nuevo()
+	{
+		vehiculos = new Vehiculos();
+		vehiculosDetalle = new VehiculosDetalle();
+	}
+
+	public async Task AddDetalle()
+	{
+		var nuevoDetalle = new VehiculosDetalle()
+			{
+				VehiculoId = vehiculosDetalle.VehiculoId,
+				Id = vehiculosDetalle.Id,
+				AccesorioId = vehiculosDetalle.AccesorioId,
+				Valor = vehiculosDetalle.Valor
+			};
+
+		listaDetalles.Add(nuevoDetalle);
+		await httpClient.PostAsJsonAsync("api/Vehiculos", vehiculos);
+
+
+
+		StateHasChanged(); 
 	}
 }
