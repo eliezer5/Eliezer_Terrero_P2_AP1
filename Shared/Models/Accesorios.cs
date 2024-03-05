@@ -9,7 +9,8 @@ namespace Shared.Models
 {
 	public class Accesorios
 	{
-		[Key]	
+		[Key]
+		
 		public int AccesoriosId {  get; set; }
 
 		[Required]

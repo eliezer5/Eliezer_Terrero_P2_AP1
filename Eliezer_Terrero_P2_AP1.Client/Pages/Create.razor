@@ -48,22 +48,25 @@
 			<div class="mb-3">
 				<label>Id</label>
 				<InputNumber @bind-Value="vehiculosDetalle.Id"></InputNumber>
-				<ValidationMessage For="(() => vehiculosDetalle.Id)"></ValidationMessage>
+				
 			</div>
 
 			<div class="mb-3">
 				<label>VehiculoId</label>
 				<InputSelect @bind-Value=@vehiculosDetalle.VehiculoId class="form-control">
+					<option value="">Seleccione el AccesorioId</option>
 					@foreach (var vehiculo in listaVehiculo)
 					{
-						<option value="@vehiculo.Descripcion">@vehiculo.VehiculoId</option>
+						<option value="@vehiculo.VehiculoId">@vehiculo.Descripcion</option>
 					}
 				</InputSelect>
+				
 			</div>
 
 			<div class="mb-3">
 				<label>AccesorioId</label>
 				<InputSelect @bind-Value=@vehiculosDetalle.AccesorioId class="form-control" >
+
 					<option value="">Seleccione el AccesorioId</option>
 					@foreach (var accesorio in listaAcessorio)
 					{
@@ -71,16 +74,17 @@
 					}
 				</InputSelect>
 				
+				
 			</div>
 			<div class="mb-3">
 				<label>Costo</label>
 				<InputNumber @bind-Value="vehiculosDetalle.Valor"></InputNumber>
-				<ValidationMessage For="(() => vehiculosDetalle.Valor)"></ValidationMessage>
+				
 			</div>
 		</div>
 		<div class="card-footer">
 			<button><a href="/" class="btn btn-group">Atras</a></button>
-			<button type="button" class="btn btn-success" @onclick="Guardar">Guardar</button>
+			<button type="submit" class="btn btn-success" @onclick="Guardar">Guardar</button>
 			<button type="button" class="btn btn-success" @onclick="AddDetalle">AgregarDetalle</button>
 		</div>
 	</div>
@@ -113,7 +117,6 @@
 
 		if (!response.IsSuccessStatusCode)
 		{
-
 			return;
 
 		}
@@ -136,13 +139,7 @@
 
 	public async Task AddDetalle()
 	{
-
-
 		vehiculos.VehiculosDetalles.Add(vehiculosDetalle);
-
-		vehiculosDetalle = new VehiculosDetalle();
-
-
 		StateHasChanged(); 
 	}
 }
