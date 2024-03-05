@@ -1,6 +1,6 @@
-﻿@page "/Edit/{VehiculoId:int}"
+﻿@page "/Delete/{VehiculoId}"
 @inject HttpClient httpClient
-<EditForm Model="vehiculos" OnValidSubmit="Guardar">
+<EditForm Model="vehiculos">
 	<DataAnnotationsValidator />
 	<div class="card">
 		<div class="card-header">
@@ -10,28 +10,28 @@
 		<div class="card-body">
 			<div class="mb-3">
 				<label>VehiculoId</label>
-				<InputNumber @bind-Value="vehiculos.VehiculoId"></InputNumber>
+				<InputNumber @bind-Value="vehiculos.VehiculoId" readonly></InputNumber>
 			</div>
 
 			<div class="mb-3">
 				<label>Descripci&oacute;n</label>
-				<InputText @bind-Value="vehiculos.Descripcion"></InputText>
+				<InputText @bind-Value="vehiculos.Descripcion" readonly></InputText>
 			</div>
 
 			<div class="mb-3">
 				<label>Fecha</label>
-				<InputDate @bind-Value="vehiculos.Fecha"></InputDate>
+				<InputDate @bind-Value="vehiculos.Fecha" readonly></InputDate>
 			</div>
 
 
 			<div class="mb-3">
 				<label>Costo</label>
-				<InputNumber @bind-Value="vehiculos.Costo"></InputNumber>
+				<InputNumber @bind-Value="vehiculos.Costo" readonly></InputNumber>
 			</div>
 
 			<div class="card-footer">
 				<button><a href="/" class="btn btn-group">Atras</a></button>
-				<button type="submit" class="btn btn-success">Guardar</button>
+				<button type="submit" class="btn btn-warning">Eliminar</button>
 			</div>
 
 		</div>
@@ -48,27 +48,14 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		vehiculos.Fecha = DateTime.Now;
+		vehiculos = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{VehiculoId}");
 	}
 
 
-	public async Task Guardar()
+	public async Task Eliminar()
 	{
+		var response = await httpClient.DeleteAsync($"api/Vehiculos/{VehiculoId}");
+		
 
-		var response = await httpClient.PutAsJsonAsync($"api/vehiculos/{VehiculoId}", vehiculos);
-
-		if (!response.IsSuccessStatusCode)
-		{
-			return;
-		}
-		var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos>();
-		if (vehiculoDevuelto is not null)
-		{
-
-			vehiculos = vehiculoDevuelto;
-			vehiculosDetalle.VehiculoId = vehiculos.VehiculoId;
-			vehiculosDetalle.AccesorioId = accesorios.AccesoriosId;
-			StateHasChanged();
-		}
 	}
 }
