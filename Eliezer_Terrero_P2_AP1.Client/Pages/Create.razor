@@ -63,12 +63,14 @@
 
 			<div class="mb-3">
 				<label>AccesorioId</label>
-				<InputSelect @bind-Value=@vehiculos.VehiculoId class="form-control">
+				<InputSelect @bind-Value=@vehiculosDetalle.AccesorioId class="form-control" >
+					<option value="">Seleccione el AccesorioId</option>
 					@foreach (var accesorio in listaAcessorio)
 					{
-						<option value="@accesorio.Descripcion">@accesorio.AccesoriosId</option>
+						<option value="@accesorio.AccesoriosId">@accesorio.Descripcion</option>
 					}
 				</InputSelect>
+				
 			</div>
 			<div class="mb-3">
 				<label>Costo</label>
@@ -111,9 +113,9 @@
 
 		if (!response.IsSuccessStatusCode)
 		{
-			
+
 			return;
-		
+
 		}
 
 		var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos>();
@@ -134,17 +136,11 @@
 
 	public async Task AddDetalle()
 	{
-		var nuevoDetalle = new VehiculosDetalle()
-			{
-				VehiculoId = vehiculosDetalle.VehiculoId,
-				Id = vehiculosDetalle.Id,
-				AccesorioId = vehiculosDetalle.AccesorioId,
-				Valor = vehiculosDetalle.Valor
-			};
 
-		listaDetalles.Add(nuevoDetalle);
-		await httpClient.PostAsJsonAsync("api/Vehiculos", vehiculos);
 
+		vehiculos.VehiculosDetalles.Add(vehiculosDetalle);
+
+		vehiculosDetalle = new VehiculosDetalle();
 
 
 		StateHasChanged(); 
