@@ -75,6 +75,9 @@ namespace Eliezer_Terrero_P2_AP1.API.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal>("Gasto")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("VehiculoId");
 
                     b.ToTable("Vehiculos");

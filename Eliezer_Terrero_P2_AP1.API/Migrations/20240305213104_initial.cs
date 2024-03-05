@@ -34,7 +34,8 @@ namespace Eliezer_Terrero_P2_AP1.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Descripcion = table.Column<string>(type: "TEXT", nullable: false),
-                    Costo = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Costo = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Gasto = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
