@@ -34,7 +34,7 @@
 						<tr>
 							<th>AccesorioId</th>
 							<th>Valor</th>
-							<th></th>
+							
 						</tr>
 					</thead>
 					<tbody>
@@ -45,9 +45,7 @@
 							<tr>
 								<td>@detalle.AccesorioId</td>
 								<td>@detalle.Valor</td>
-								<td>
-									<button type="button" class="btn btn-danger bi bi-trash" @onclick=@(() => Eliminar(detalle))></button>
-								</td>
+								
 							</tr>
 
 
@@ -56,7 +54,7 @@
 				</table>
 
 			<div class="card-footer">
-				<button><a href="/Index" class="btn btn-group">Atras</a></button>
+					<button><a href="/Index" class="btn btn-group bi bi-arrow-left">Atras</a></button>
 				<button type="submit" class="btn btn-success">Guardar</button>
 			</div>
 			</div>
