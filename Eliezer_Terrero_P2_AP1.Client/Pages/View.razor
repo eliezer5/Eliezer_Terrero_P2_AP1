@@ -10,6 +10,33 @@
     <p>Fecha: @vehiculo.Fecha </p>
     <p>Costo: @vehiculo.Costo </p>
     <p>Gasto: @vehiculo.Gasto </p>
+
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AccesorioId</th>
+                    <th>Valor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var detalle in vehiculo.VehiculosDetalles)
+                {
+
+                    <tr>
+                        <td>@detalle.AccesorioId</td>
+                        <td>@detalle.Valor</td>
+                        
+                    </tr>
+
+
+                }
+            </tbody>
+        </table>
+
+    </div>
     <div>
         <a href="/Index"><button class="btn btn-info bi bi bi-arrow-left">Atr&aacute;s</button></a>
     </div>

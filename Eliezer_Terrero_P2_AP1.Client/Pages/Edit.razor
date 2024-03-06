@@ -4,64 +4,139 @@
 	<DataAnnotationsValidator />
 	<div class="card">
 		<div class="card-header">
-			<h2>Editar Veh&iacute;culo</h2>
+			<h2>Registro Veh&iacute;culo</h2>
 		</div>
 
 		<div class="card-body">
-			<div class="mb-3">
+			<div class="row">
 				<label>Veh&iacute;culoId</label>
-				<InputNumber @bind-Value="vehiculos.VehiculoId"></InputNumber>
+				<div class="col-auto">
+
+					<InputNumber @bind-Value="vehiculos.VehiculoId" class="form-control"></InputNumber>
+					<ValidationMessage For="(() => vehiculos.VehiculoId)"></ValidationMessage>
+				</div>
 			</div>
 
-			<div class="mb-3">
+			<div class="row">
 				<label>Descripci&oacute;n</label>
-				<InputText @bind-Value="vehiculos.Descripcion"></InputText>
+				<div class="col-auto">
+					<InputText @bind-Value="vehiculos.Descripcion" class="form-control"></InputText>
+					<ValidationMessage For="(() => vehiculos.Descripcion)"></ValidationMessage>
+
+				</div>
 			</div>
 
-			<div class="mb-3">
+			<div class="row">
 				<label>Fecha</label>
-				<InputDate @bind-Value="vehiculos.Fecha"></InputDate>
+				<div class="col-auto">
+					<InputDate @bind-Value="vehiculos.Fecha" class="form-control"></InputDate>
+					<ValidationMessage For="(() => vehiculos.Fecha)"></ValidationMessage>
+
+				</div>
 			</div>
 
 
-			<div class="mb-3">
+			<div class="row">
 				<label>Costo</label>
-				<InputNumber @bind-Value="vehiculos.Costo"></InputNumber>
+				<div class="col-auto">
+					<InputNumber @bind-Value="vehiculos.Costo" class="form-control"></InputNumber>
+					<ValidationMessage For="(() => vehiculos.Costo)"></ValidationMessage>
+
+				</div>
 			</div>
-			<div class="mb-3">
+
+			<div class="row">
 				<label>Gasto</label>
-				<InputNumber @bind-Value="vehiculos.Gasto"></InputNumber>
-			</div>
-			<div>
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>AccesorioId</th>
-							<th>Valor</th>
-							
-						</tr>
-					</thead>
-					<tbody>
+				<div class="col-auto">
+					<InputNumber @bind-Value="vehiculos.Gasto" class="form-control" readonly></InputNumber>
 
-						@foreach (var detalle in vehiculos.VehiculosDetalles)
+
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			<h2>Veh&iacute;culo Detalle</h2>
+		</div>
+
+		<div class="card-body">
+			<div class="row">
+				<label>Id</label>
+				<div class="col-auto">
+					<InputNumber @bind-Value="vehiculosDetalle.Id"></InputNumber>
+
+				</div>
+
+			</div>
+
+			<div class="row">
+				<label>AccesorioId</label>
+				<div class="col-auto">
+
+					<InputSelect @bind-Value=@vehiculosDetalle.AccesorioId class="form-control">
+
+						<option value="">Seleccione el AccesorioId</option>
+
+						@foreach (var accesorio in listaAcessorio)
 						{
-
-							<tr>
-								<td>@detalle.AccesorioId</td>
-								<td>@detalle.Valor</td>
-								
-							</tr>
-
-
+							<option value="@accesorio.AccesoriosId">@accesorio.Descripcion</option>
 						}
-					</tbody>
-				</table>
+					</InputSelect>
 
-			<div class="card-footer">
-					<button><a href="/Index" class="btn btn-group bi bi-arrow-left">Atr&aacute;s</a></button>
-				<button type="submit" class="btn btn-success">Guardar</button>
+				</div>
+
+
 			</div>
+			<div class="row">
+
+				<label>Valor</label>
+				<div class="col-auto">
+					<InputNumber @bind-Value="vehiculosDetalle.Valor"></InputNumber>
+				</div>
+
+				<p class="text-danger">@mensaje</p>
 			</div>
+		</div>
+
+		<hr clas="border-bottom" />
+
+		<div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>AccesorioId</th>
+						<th>Valor</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					@foreach (var detalle in vehiculos.VehiculosDetalles)
+					{
+
+						<tr>
+							<td>@detalle.AccesorioId</td>
+							<td>@detalle.Valor</td>
+							<td>
+								<button type="button" class="btn btn-danger bi bi-trash" @onclick=@(() => Eliminar(detalle))></button>
+							</td>
+						</tr>
+
+
+					}
+				</tbody>
+			</table>
+
+		</div>
+		<div class="card-footer">
+			<button><a href="/Index" class="btn btn-group bi bi-arrow-left">Atr&aacute;s</a></button>
+			<button type="submit" class="btn btn-success bi bi-floppy">Guardar</button>
+			<button type="button" class="btn btn-success bi bi-save2" @onclick="AddDetalle">AgregarDetalle</button>
 		</div>
 	</div>
 </EditForm>
@@ -73,24 +148,66 @@
 	public Accesorios accesorios { get; set; } = new Accesorios();
 	public List<VehiculosDetalle> listaDetalles = new List<VehiculosDetalle>();
 	public VehiculosDetalle vehiculosDetalle = new VehiculosDetalle();
+	public List<Accesorios> listaAcessorio = new List<Accesorios>();
+
+	public string mensaje = string.Empty;
 
 	protected override async Task OnInitializedAsync()
 	{
+		listaAcessorio = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");
 		vehiculos = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{VehiculoId}");
 
 	}
 
-
 	public async Task Guardar()
 	{
-
-		var response = await httpClient.PutAsJsonAsync($"api/vehiculos/{VehiculoId}", vehiculos);
+		var response = await httpClient.PutAsJsonAsync($"api/Vehiculos/{VehiculoId}", vehiculos);
 
 		if (!response.IsSuccessStatusCode)
 		{
 			return;
+
 		}
+
+		var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos>();
+
+		if (vehiculoDevuelto is not null)
+		{
+			vehiculos = vehiculoDevuelto;
+			nuevo();
+			StateHasChanged();
+		}
+	}
+
+	public void nuevo()
+	{
+		vehiculos = new Vehiculos();
+		vehiculosDetalle = new VehiculosDetalle();
+	}
+
+	public async Task AddDetalle()
+	{
+		vehiculosDetalle.VehiculoId = vehiculos.VehiculoId;
+		validar();
+		vehiculos.VehiculosDetalles.Add(vehiculosDetalle);
+		vehiculos.Gasto += vehiculosDetalle.Valor;
+		vehiculosDetalle = new VehiculosDetalle();
 		StateHasChanged();
+	}
+	public bool validar()
+	{
+		if (vehiculosDetalle.AccesorioId == 0)
+		{
+			mensaje = "debes seleccionar un accesorio id valido";
+			return false;
+		}
+		else if (vehiculosDetalle.Valor == 0)
+		{
+			mensaje = "El valor debe ser mayor a 0";
+			return false;
+		}
+		mensaje = string.Empty;
+		return true;
 	}
 
 	public async Task Eliminar(VehiculosDetalle vehiculosDetalles)
