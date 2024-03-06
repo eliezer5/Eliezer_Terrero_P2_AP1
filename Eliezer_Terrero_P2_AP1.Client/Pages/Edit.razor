@@ -162,21 +162,9 @@
 	public async Task Guardar()
 	{
 		var response = await httpClient.PutAsJsonAsync($"api/Vehiculos/{VehiculoId}", vehiculos);
-
-		if (!response.IsSuccessStatusCode)
-		{
-			return;
-
-		}
-
-		var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos>();
-
-		if (vehiculoDevuelto is not null)
-		{
-			vehiculos = vehiculoDevuelto;
-			nuevo();
+			
+			mensaje = "Guardado Correctamente";
 			StateHasChanged();
-		}
 	}
 
 	public void nuevo()
@@ -188,7 +176,7 @@
 	public async Task AddDetalle()
 	{
 		vehiculosDetalle.VehiculoId = vehiculos.VehiculoId;
-		validar();
+		if (validar() == false) { return; }
 		vehiculos.VehiculosDetalles.Add(vehiculosDetalle);
 		vehiculos.Gasto += vehiculosDetalle.Valor;
 		vehiculosDetalle = new VehiculosDetalle();
@@ -206,6 +194,13 @@
 			mensaje = "El valor debe ser mayor a 0";
 			return false;
 		}
+
+		else if (vehiculos.VehiculosDetalles.Any(a => a.AccesorioId == vehiculosDetalle.AccesorioId))
+		{
+			mensaje = "Ya existe un Accesorio Id";
+			return false;
+		}
+
 		mensaje = string.Empty;
 		return true;
 	}

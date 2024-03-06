@@ -210,6 +210,11 @@
 			mensaje = "El valor debe ser mayor a 0";
 			return false;
 		}
+		else if (vehiculos.VehiculosDetalles.Any(a => a.AccesorioId == vehiculosDetalle.AccesorioId))
+		{
+			mensaje = "Ya existe un Accesorio Id";
+			return false;
+		}
 		mensaje = string.Empty;
 		return true;
 	}
