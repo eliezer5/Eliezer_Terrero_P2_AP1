@@ -3,7 +3,7 @@
 
 <div class="card"> 
     <div class="card-header">
-        <h1>Consulta vehiculos</h1>
+        <h1>Consulta Veh&iacute;culos</h1>
     </div>
 
     <div class="card-body">
@@ -11,7 +11,7 @@
             <div class="col-4">
                 <label>Filtrar Por</label>
                 <InputSelect @bind-Value="Opcion" class="form-select">
-                    <option value="1">vehiculoId</option>
+                    <option value="1">Veh&iacute;culoId</option>
                     <option value="2">Descripci&oacute;n</option>
                     <option value="3">Todo</option>
                 </InputSelect>
@@ -20,7 +20,7 @@
             @if (Opcion == 1)
             {
                 <div class="col-5">
-                    <label>VehiculoId</label>
+                    <label>Veh&iacute;culoId</label>
                     <div class="input-group">
                         <InputNumber @bind-Value="vehiculos.VehiculoId" class="form-control" />
                         <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
@@ -55,7 +55,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>VehiculoId</th>
+                    <th>Veh&iacute;culoId</th>
                     <th>Fecha</th>
                     <th>Descripci&oacute;n</th>
                     <th>Costo</th>
