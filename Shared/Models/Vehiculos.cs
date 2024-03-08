@@ -22,9 +22,10 @@ namespace Shared.Models
 		[Range(0.1, double.MaxValue, ErrorMessage = "El rango debe ser mayor a 0")]
 		public decimal Costo { get; set; }
 
-        [Range(0.1, double.MaxValue,ErrorMessage ="El rango debe ser mayor a 0")]
-        public decimal Gasto { get; set; }
-        [ForeignKey("VehiculoId")]
+		[Range(0, double.MaxValue, ErrorMessage = "El rango debe ser mayor a 0")]
+		public decimal Gasto { get; set; }
+
+		[ForeignKey("VehiculoId")]
         public ICollection<VehiculosDetalle?> VehiculosDetalles { get; set; } = new List<VehiculosDetalle?>();
     }
 }

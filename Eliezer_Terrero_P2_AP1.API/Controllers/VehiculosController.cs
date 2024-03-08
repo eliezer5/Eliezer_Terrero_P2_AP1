@@ -32,7 +32,7 @@ namespace Eliezer_Terrero_P2_AP1.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Vehiculos>> GetVehiculos(int id)
         {
-            var vehiculos = await _context.Vehiculos.FindAsync(id);
+            var vehiculos = await _context.Vehiculos.Include(v => v.VehiculosDetalles).FirstOrDefaultAsync(v => v.VehiculoId == id);
 
             if (vehiculos == null)
             {
@@ -52,7 +52,13 @@ namespace Eliezer_Terrero_P2_AP1.API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(vehiculos).State = EntityState.Modified;
+			await _context.VehiculosDetalle.Where(v => v.VehiculoId == id).ExecuteDeleteAsync();
+			foreach (var item in vehiculos.VehiculosDetalles)
+			{
+				_context.VehiculosDetalle.Add(item);
+			}
+
+			_context.Entry(vehiculos).State = EntityState.Modified;
 
             try
             {

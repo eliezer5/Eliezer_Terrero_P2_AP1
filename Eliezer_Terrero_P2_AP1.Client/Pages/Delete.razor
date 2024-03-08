@@ -1,15 +1,15 @@
-﻿@page "/Delete/{VehiculoId}"
+﻿@page "/Delete/{VehiculoId:int}"
 @inject HttpClient httpClient
 <EditForm Model="vehiculos">
 	<DataAnnotationsValidator />
 	<div class="card">
 		<div class="card-header">
-			<h2>Registro Vehiculo</h2>
+			<h2>Eliminar Veh&iacute;culo</h2>
 		</div>
 
 		<div class="card-body">
 			<div class="mb-3">
-				<label>VehiculoId</label>
+				<label>Veh&iacute;culoId</label>
 				<InputNumber @bind-Value="vehiculos.VehiculoId" readonly></InputNumber>
 			</div>
 
@@ -28,10 +28,14 @@
 				<label>Costo</label>
 				<InputNumber @bind-Value="vehiculos.Costo" readonly></InputNumber>
 			</div>
-
+			<div class="mb-3">
+				<label>Gasto</label>
+				<InputNumber @bind-Value="vehiculos.Gasto" class=""></InputNumber>
+			</div>
+			<p class="text-danger">@mensaje</p>
 			<div class="card-footer">
-				<button><a href="/" class="btn btn-group">Atras</a></button>
-				<button type="submit" class="btn btn-warning">Eliminar</button>
+				<button><a href="/Index" class="btn btn-group bi bi-arrow-left">Atr&aacute;s</a></button>
+				<button type="button" class="btn btn-danger" @onclick="Eliminar" >Eliminar</button>
 			</div>
 
 		</div>
@@ -40,11 +44,8 @@
 @code {
 	[Parameter]
 	public int VehiculoId { get; set; }
-
 	public Vehiculos vehiculos { get; set; } = new Vehiculos();
-	public Accesorios accesorios { get; set; } = new Accesorios();
-	public List<VehiculosDetalle> listaDetalles = new List<VehiculosDetalle>();
-	public VehiculosDetalle vehiculosDetalle = new VehiculosDetalle();
+	public string mensaje = string.Empty;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -55,7 +56,8 @@
 	public async Task Eliminar()
 	{
 		var response = await httpClient.DeleteAsync($"api/Vehiculos/{VehiculoId}");
-		
+		mensaje = "Vehículo eliminado Correctamente";
+		StateHasChanged();
 
 	}
 }

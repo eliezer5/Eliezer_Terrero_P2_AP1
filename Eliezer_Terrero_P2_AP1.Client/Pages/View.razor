@@ -2,14 +2,44 @@
 @inject HttpClient httpClient
 <div class="card">
     <div class="card-header">
-        <h2>View Vehiculo</h2>
+        <h2>Ver Veh&iacute;culo</h2>
     </div>
     
-    <p>VehiculoId: @vehiculo.VehiculoId </p>
+    <p>Veh&iacute;culoId: @vehiculo.VehiculoId </p>
     <p>Descripci&oacute;n: @vehiculo.Descripcion </p>
     <p>Fecha: @vehiculo.Fecha </p>
     <p>Costo: @vehiculo.Costo </p>
-   
+    <p>Gasto: @vehiculo.Gasto </p>
+
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AccesorioId</th>
+                    <th>Valor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var detalle in vehiculo.VehiculosDetalles)
+                {
+
+                    <tr>
+                        <td>@detalle.AccesorioId</td>
+                        <td>@detalle.Valor</td>
+                        
+                    </tr>
+
+
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div>
+        <a href="/Index"><button class="btn btn-info bi bi bi-arrow-left">Atr&aacute;s</button></a>
+    </div>
 
        
     

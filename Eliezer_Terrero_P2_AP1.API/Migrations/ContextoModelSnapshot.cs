@@ -30,6 +30,33 @@ namespace Eliezer_Terrero_P2_AP1.API.Migrations
                     b.HasKey("AccesoriosId");
 
                     b.ToTable("Accesorios");
+
+                    b.HasData(
+                        new
+                        {
+                            AccesoriosId = 1,
+                            Descripcion = "Camara Trasera"
+                        },
+                        new
+                        {
+                            AccesoriosId = 2,
+                            Descripcion = "Pantalla interior"
+                        },
+                        new
+                        {
+                            AccesoriosId = 3,
+                            Descripcion = "Interior en Piel"
+                        },
+                        new
+                        {
+                            AccesoriosId = 4,
+                            Descripcion = "Sun Roof"
+                        },
+                        new
+                        {
+                            AccesoriosId = 5,
+                            Descripcion = "Aros de Lujo"
+                        });
                 });
 
             modelBuilder.Entity("Shared.Models.Vehiculos", b =>
